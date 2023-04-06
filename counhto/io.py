@@ -6,11 +6,11 @@ import scipy
 
 def parse_input_csv(path_to_csv_file: str) -> tuple[list[str], list[str], list[str], list[str]]:
     """
-    parses the input csv file and returns a tuple of lists of bamfiles, barcodefiles, htofiles and outputdir
+    parses the input csv file and returns a tuple of lists of bamfiles, htofiles, barcodefiles and outputdir
 
     :param path_to_csv_file:    csv file containing four columns with header bamfile,barcodefile,htofile,outputdir
 
-    :return:                    list of bamfiles, list of barcodefiles, list of htofiles, list of outputdirs
+    :return:                    list of bamfiles, list of htofiles, list of barcodefiles, list of outputdirs
     """
 
     with open(path_to_csv_file, 'r') as csv_file:
@@ -26,7 +26,7 @@ def parse_input_csv(path_to_csv_file: str) -> tuple[list[str], list[str], list[s
             ):
                 entry_list.append(entry)
 
-    return bam_files, barcode_files, hto_files, output_dirs
+    return bam_files, hto_files, barcode_files, output_dirs
 
 
 def read_hto_file(path_to_hto_file: str) -> list[tuple[str]]:
