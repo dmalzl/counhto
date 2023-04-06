@@ -27,4 +27,4 @@ requires-python = ">=3.10"
 counhto = 'counhto.main:main'
 
 [project.urls]
-Homepage = "https://github.com/dmalzl/countho"
+Homepage = "https://github.com/dmalzl/counhto"
