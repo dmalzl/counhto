@@ -4,6 +4,31 @@ import logging
 import scipy
 
 
+def parse_input_csv(path_to_csv_file: str) -> tuple[list[str], list[str], list[str], list[str]]:
+    """
+    parses the input csv file and returns a tuple of lists of bamfiles, barcodefiles, htofiles and outputdir
+
+    :param path_to_csv_file:    csv file containing four columns with header bamfile,barcodefile,htofile,outputdir
+
+    :return:                    list of bamfiles, list of barcodefiles, list of htofiles, list of outputdirs
+    """
+
+    with open(path_to_csv_file, 'r') as csv_file:
+        header = csv_file.readline().rstrip().split(',')
+        bam_files: list[str] = []
+        barcode_files: list[str] = []
+        hto_files: list[str] = []
+        output_dirs: list[str] = []
+        for sample_line in csv_file:
+            for entry, entry_list in zip(
+                sample_line.rstrip().split(','),
+                [bam_files, barcode_files, hto_files, output_dirs]
+            ):
+                entry_list.append(entry)
+
+    return bam_files, barcode_files, hto_files, output_dirs
+
+
 def read_hto_file(path_to_hto_file: str) -> list[tuple[str]]:
     """
     read feature_ref csv file as supplied to cellranger when using antibody capture libraries

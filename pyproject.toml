@@ -1,0 +1,30 @@
+# pyproject.toml
+
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "countho"
+version = "1.0.0"
+description = "Python package for generating hash tag oligo count matrices for demultiplexing cellranger output"
+readme = "README.md"
+authors = [{ name = "Daniel Malzl", email = "daniel@menchelab.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ['bioinformatics', 'single cell sequencing', 'sequencing', 'NGS']
+dependencies = [
+    'pysam >= 0.20.0',
+    'scipy >= 1.10'
+]
+requires-python = ">=3.10"
+
+[console_scripts]
+countho = 'bin/countho'
+
+[project.urls]
+Homepage = "https://github.com/dmalzl/countho"

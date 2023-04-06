@@ -116,7 +116,7 @@ def make_hto_count_matrix(path_dict: dict[str, str]) -> None:
     )
 
 
-def main(
+def run_hto_counting(
         bam_files,
         hto_files,
         barcode_files,
@@ -134,12 +134,6 @@ def main(
 
     :return:                    None
     """
-    check_input_lengths(
-        bam_files,
-        hto_files,
-        barcode_files,
-        output_directories
-    )
     iterable = [
         {'bam_file': bam_file, 'hto_file': hto_file, 'barcode_file': barcode_file, 'output_directory': output_directory}
         for bam_file, hto_file, barcode_file, output_directory in
