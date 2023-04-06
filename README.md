@@ -1,5 +1,5 @@
 # counhto
-An easy to use tool to count hashtag oligos from 10x cellranger output
+An easy to use tool to count hashtag oligos (HTOs) from 10x cellranger count output processed with Antibody Captures for sample multiplexing
 
 ## Install
 The most convenient and easy way to install the package is
