@@ -1,3 +1,5 @@
+import sys
+
 import argparse as ap
 
 from .core import run_hto_counting
@@ -38,7 +40,11 @@ def argument_parser():
     return parser
 
 
-def main(args):
+def main():
+    args = None
+    if len(sys.argv) == 1:
+        args = ["--help"]
+
     args = argument_parser().parse_args(args)
     bam_files, hto_files, barcode_files, output_directories = parse_input_csv(args.csv)
     check_input_lengths(
