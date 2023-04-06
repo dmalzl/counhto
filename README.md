@@ -27,3 +27,12 @@ countho --csv sample_csv.csv [-p n]
 ```
 
 The `-p` argument specifies the number of cpus to use for processing however this only has an effect if more than one samples are supplied.
+
+The output for each sample will then be written to the specified output directories and will have the following structure
+```
+/path/to/outputdir/
+|__
+   |__barcodes.tsv  # filtered barcodes
+   |__features.tsv  # names of the HTOs as specified in the feature_ref.csv file
+   |__matrix.mtx    # MatrixMarket formated count matrix of shape n_barcodes x n_HTOs
+```
