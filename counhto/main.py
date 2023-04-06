@@ -1,10 +1,13 @@
 import sys
+import logging
 
 import argparse as ap
 
 from .core import run_hto_counting
 from .utils import check_input_lengths
 from .io import parse_input_csv
+
+FORMAT = '%(asctime)s %(message)s'
 
 
 def argument_parser():
@@ -46,6 +49,10 @@ def main():
         args = ["--help"]
 
     args = argument_parser().parse_args(args)
+
+    logging.basicConfig(format=FORMAT)
+    logging.getLogger().setLevel(logging.INFO)
+
     bam_files, hto_files, barcode_files, output_directories = parse_input_csv(args.csv)
     check_input_lengths(
         bam_files,
