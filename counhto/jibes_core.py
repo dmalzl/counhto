@@ -12,23 +12,23 @@ import statsmodels.api as sm
 from scipy.stats import norm, poisson
 
 from .jibes_data import JibesData
+from .constants import (
+    DEFAULT_BLANK_PROB,
+    _MAX_K_LETS_TO_CONSIDER,
+    CORR_FACTOR,
+    NUM_TOTAL_TAGS,
+    N_G,
+    G19_N_GEMS,
+    JIBES_MIN_CONFIDENCE,
+    MULTIPLETS_FACTOR_NAME,
+    UNASSIGNED_FACTOR_NAME,
+    BLANK_FACTOR_NAME,
+    ASSIGNMENT_COL_NAME,
+    ASSIGNMENT_PROB_COL_NAME
+)
 from .combinatorics import multinomial_comb, generate_all_multiplets
 from scipy import optimize
 from typing import Union
-
-DEFAULT_BLANK_PROB = 0.04
-_MAX_K_LETS_TO_CONSIDER = 3
-CORR_FACTOR = 1.54
-NUM_TOTAL_TAGS = 14
-N_G = 95000
-G19_N_GEMS = {"MT": N_G, "LT": 9500, "HT": 190000}
-JIBES_MIN_CONFIDENCE = 0.9
-
-MULTIPLETS_FACTOR_NAME = "Multiplet"
-UNASSIGNED_FACTOR_NAME = "Unassigned"
-BLANK_FACTOR_NAME = "Blanks"
-ASSIGNMENT_COL_NAME = "Assignment"
-ASSIGNMENT_PROB_COL_NAME = "Assignment_Probability"
 # pylint: disable=invalid-name
 
 

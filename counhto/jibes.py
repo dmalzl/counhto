@@ -14,7 +14,7 @@ from .marginal import (
     get_features_per_cell_table
 )
 from .jibes_data import JibesData
-from .jibes_core import (
+from .constants import (
     N_G,
     MULTIPLETS_FACTOR_NAME,
     BLANK_FACTOR_NAME,
