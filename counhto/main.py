@@ -5,7 +5,7 @@ import argparse as ap
 import multiprocessing as mp
 
 from .count import make_hto_count_matrix
-from .utils import check_input_lengths
+from .utils import check_input_lengths, subset_called_cells
 from .io import parse_input_csv, write_outputs
 from .marginal import get_marginal_tag_assignment
 from .jibes import get_jibes_tag_assignment
@@ -70,10 +70,16 @@ def process_sample(path_dict: dict[str, str]):
         barcodes,
         marginal_features_per_cell_table
     )
-
-    write_outputs(
+    called_counts, called_barcodes = subset_called_cells(
         tag_counts_matrix,
         barcodes,
+        jibes_features_per_cell_table.index
+    )
+
+    jibes_features_per_cell_table = jibes_features_per_cell_table.reindex(called_barcodes)
+
+    write_outputs(
+        called_counts,
         jibes_features_per_cell_table,
         feature_names,
         output_path_prefix
