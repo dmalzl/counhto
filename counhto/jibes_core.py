@@ -173,7 +173,7 @@ def _order_initial_parameters(assignments, data):
     """
     bc_to_index = {x: i for i, x in enumerate(assignments['cell_barcode'])}
     indices = np.fromiter(
-        (bc_to_index[x] for x in data.barcodes), dtype=np.int, count=len(data.barcodes)
+        (bc_to_index[x] for x in data.barcodes), dtype=np.int32, count=len(data.barcodes)
     )
     return assignments.take(indices).reset_index(drop=True)
 
