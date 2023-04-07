@@ -1,5 +1,8 @@
 # counhto
-An easy to use tool to count hashtag oligos (HTOs) from 10x cellranger count output processed with Antibody Captures for sample multiplexing
+
+![img](https://img.shields.io/badge/pypi-1.1.0-blue)
+
+An easy to use tool to count hashtag oligos (HTOs) from 10x cellranger count output processed with Antibody Captures for sample multiplexing and assign tags to cells using the cellranger Jibes algorithm (this part is a minimal edit of the original algorithm as implemented in cellranger > 6.0)
 
 ## Install
 The most convenient and easy way to install the package is
@@ -28,11 +31,11 @@ countho --csv sample_csv.csv [-p n]
 
 The `-p` argument specifies the number of cpus to use for processing however this only has an effect if more than one samples are supplied.
 
-The output for each sample will then be written to the specified output directories and will have the following structure
+counhto then counts UMIs per HTO and automatically performes tag assignment using cellrangers Jibes algoritm (see [cell multiplexing documentation](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/algorithms/cellplex) for more info). The output for each sample will then be written to the specified output directories where the barcodes.tsv file contains the tag assignment information. The directory has following structure
 ```
 /path/to/outputdir/
 |__
-   |__barcodes.tsv  # filtered barcodes
+   |__barcodes.tsv  # filtered barcodes with tag assignment information
    |__features.tsv  # names of the HTOs as specified in the feature_ref.csv file
    |__matrix.mtx    # MatrixMarket formated count matrix of shape n_barcodes x n_HTOs
 ```
