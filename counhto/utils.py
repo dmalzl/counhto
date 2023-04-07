@@ -271,6 +271,7 @@ def fill_unassigned_cells_entries(
         },
         inplace=True
     )
+    all_cells_feature_table.loc[:, 'num_features'] = all_cells_feature_table.num_features.astype(int)
     nan_idx = all_cells_feature_table.num_umis.isna()
     nan_tag_counts = tag_counts_matrix[nan_idx, :].toarray().astype(str)
     all_cells_feature_table.loc[nan_idx, 'num_umis'] = [
