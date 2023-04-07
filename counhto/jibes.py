@@ -71,7 +71,7 @@ def get_tag_assignments(
         columns=['num_features', 'num_umis']
     )
     init_data = data.subset_to_barcodes(
-        prelim_assignments['cell_bardoce'].astype("S")
+        prelim_assignments['cell_barcode'].astype("S")
     )
     starting_model = initial_params_from_tag_calls_df(
         prelim_assignments, init_data, n_gems=n_gems
