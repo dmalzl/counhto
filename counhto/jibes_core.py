@@ -446,8 +446,8 @@ class JibesEMPy:  # pylint: disable=too-many-instance-attributes
             # We mush all the probability for the higher states into the last state that we want to account for all that data
             # Note no +1 here as it's 1 based array for multiple
             p_k_let[-1] = np.sum(p_k_let[self.max_k_let_setting :])
-        x = self.X[:, 1:].astype(np.int64)
-        klet = x.sum(axis=1)
+        x = self.X[:, 1:]
+        klet = x.sum(axis=1).astype(np.int32)
         state = p_k_let[klet[1:] - 1]
         state = np.log(state)
         pis = np.log(self.model.frequencies)
