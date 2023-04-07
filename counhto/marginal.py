@@ -1,6 +1,7 @@
 # this is a minimal version of cellrangers marginal tag assignment algorithm
 # most of the code was directly copied from cellranger.feature.feature_assigner and edited as needed
 import scipy
+import logging
 
 import numpy as np
 import pandas as pd
@@ -246,6 +247,7 @@ def get_marginal_tag_assignment(
         feature_names: list[str],
         barcodes: list[str]
 ):
+    logging.info('computing marginal tag assignments')
     assignments = get_tag_assignments(
         tag_counts_matrix,
         feature_names,

@@ -2,12 +2,12 @@
 # most of the code was directly copied from cellranger.feature.jibes_tag_assigner and edited as needed
 import time
 import scipy
+import logging
 
 import pandas as pd
 import numpy as np
 
 from enum import Enum
-
 from .marginal import (
     FeatureAssignments,
     create_tag_assignments_df,
@@ -28,6 +28,7 @@ from .jibes_py import (
     get_assignment_df,
     get_cols_associated_with_assignments
 )
+
 
 class FitStatus(Enum):
     NotStarted = 0
@@ -78,11 +79,15 @@ def get_tag_assignments(
     )
 
     fitter = JibesEM(data, starting_model, n_gems=n_gems)
-    start = time.time()
+
+    logging.info('start fitting Jibes model')
     fitter.perform_EM(abs_tol=0.1)
-    fit_time_s = time.time() - start
     if not fitter.converged:
-        fit_status = FitStatus.FailedToConverge
+        logging.info('fitter not converged. results might be suboptimal.')
+
+    else:
+        logging.info('converged.')
+
     cmo_cnts = fitter.data.get_df_from_data()
     jibes_assignments = get_assignment_df(fitter, confidence=confidence)
     col_names = fitter.data.column_names
@@ -138,6 +143,7 @@ def get_jibes_tag_assignment(
         n_gems: int = N_G,
         confidence: float = JIBES_MIN_CONFIDENCE
 ):
+    logging.info('compute Jibes tag assignments')
     assignments = get_tag_assignments(
         tag_counts_matrix,
         feature_names,
