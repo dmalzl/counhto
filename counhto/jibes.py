@@ -67,7 +67,11 @@ def get_tag_assignments(
 
     :return: A dictionary of {tag_name:[FeatureAssignmentObjects]
     """
-    data = JibesData(tag_counts_matrix, feature_names, barcodes)
+    dense_matrix = tag_counts_matrix.todense().astype(np.float64)
+    for i in range(dense_matrix.shape[1]):
+        dense_matrix[:, i] = np.log10(dense_matrix[:, i] + 1.0)
+
+    data = JibesData(dense_matrix, feature_names, barcodes)
     prelim_assignments = features_per_cell_table.reset_index().drop(
         columns=['num_features', 'num_umis']
     )
