@@ -438,23 +438,16 @@ class JibesEMPy:  # pylint: disable=too-many-instance-attributes
         """Based on our poisson expectation, calculate the probability
         of each type of singlet and each type of multiplets."""
         # cnts here starts at 1 cell, the 0 group is not included
-        # cnts = get_multiplet_counts_unrounded(self.estimated_cells, n_gems=self.n_gems)[
-        #     : self.max_modeled_k_let
-        # ]
-        # above statement did not work with np.math.factorial in multinomial_comb
-        # due to non integer values, could also be fixed with math.gamma
-        # https://stackoverflow.com/questions/10056797/python-calculate-factorial-of-a-non-integral-number
-        # but resort to rounded values again
-        cnts = get_multiplet_counts(self.estimated_cells, n_gems=self.n_gems)[
+        cnts = get_multiplet_counts_unrounded(self.estimated_cells, n_gems=self.n_gems)[
             : self.max_modeled_k_let
-        ].astype(np.int64)
+        ]
         p_k_let = cnts / np.sum(cnts)
         if self.k_let_limited:
             # We mush all the probability for the higher states into the last state that we want to account for all that data
             # Note no +1 here as it's 1 based array for multiple
             p_k_let[-1] = np.sum(p_k_let[self.max_k_let_setting :])
-        x = self.X[:, 1:]
-        klet = x.sum(axis=1).astype(np.int32)
+        x = self.X[:, 1:].astype(np.int64)
+        klet = x.sum(axis=1)
         state = p_k_let[klet[1:] - 1]
         state = np.log(state)
         pis = np.log(self.model.frequencies)
@@ -464,7 +457,7 @@ class JibesEMPy:  # pylint: disable=too-many-instance-attributes
         log_not_blank = np.log(1.0 - self.model.blank_freq)
         for zi in range(1, z):
             relevant_ps = np.nonzero(x[zi, :])
-            cnts = x[zi, relevant_ps].flatten()
+            cnts = x[zi, relevant_ps].flatten().astype(np.int64)
             ps = pis[relevant_ps]
             p = np.sum(cnts * ps)
             # TODO: Investigate precision issues when multiplier is large
