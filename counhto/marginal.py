@@ -76,8 +76,8 @@ def call_presence_with_gmm_ab(umi_counts: np.ndarray, n_components: int = 2) -> 
 def identify_contaminant_tags(
     tag_counts_matrix: scipy.sparse.csr_matrix,
     assignments: dict[str, FeatureAssignments],
-    feature_names: list[str],
-    barcodes: list[str],
+    feature_names: np.ndarray,
+    barcodes: np.ndarray,
     min_counts: int = MIN_COUNTS_PER_TAG,
     dynamic_range: float = COUNTS_DYNAMIC_RANGE,
     max_cor: float = MAX_ALLOWED_PEARSON_CORRELATION,
@@ -145,8 +145,8 @@ def identify_contaminant_tags(
 
 def get_tag_assignments(
         tag_counts_matrix: scipy.sparse.csr_matrix,
-        feature_names: list[str],
-        barcodes: list[str]
+        feature_names: np.ndarray,
+        barcodes: np.ndarray
 ) -> dict[str, FeatureAssignments]:
     assignments: dict[str, np.array] = {}
     for i, feature_name in enumerate(feature_names):
@@ -168,8 +168,8 @@ def get_tag_assignments(
 
 def create_tag_assignments_df(
         assignments: dict[str, FeatureAssignments],
-        feature_names: list[str],
-        barcodes: list[str]
+        feature_names: np.ndarray,
+        barcodes: np.ndarray
 ) -> pd.DataFrame:
     """Create a feature assignment matrix
 
@@ -202,7 +202,7 @@ def create_tag_assignments_df(
 def get_features_per_cell_table(
         tag_counts_matrix: scipy.sparse.csr_matrix,
         feature_assignments_df: pd.DataFrame,
-        feature_names: list[str],
+        feature_names: np.ndarray,
         sep: str = "|"
 ) -> pd.DataFrame:
     """Returns a dataframe of features assigned, with metadata.
@@ -231,6 +231,7 @@ def get_features_per_cell_table(
         bc_data = np.ravel(
             tag_counts_matrix[i].todense()
         )  # get data for a single bc, densify it, then flatten it
+        feature_names = list(feature_names)
         umis = sep.join(
             [str(bc_data[feature_names.index(f_id)]) for f_id in calls]
         )
@@ -244,8 +245,8 @@ def get_features_per_cell_table(
 
 def get_marginal_tag_assignment(
         tag_counts_matrix: scipy.sparse.csr_matrix,
-        feature_names: list[str],
-        barcodes: list[str]
+        feature_names: np.ndarray,
+        barcodes: np.ndarray
 ):
     logging.info('computing marginal tag assignments')
     assignments = get_tag_assignments(

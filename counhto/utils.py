@@ -1,12 +1,14 @@
 import logging
+
+import numpy as np
 import scipy
 
 
 def subset_called_cells(
         counts: scipy.sparse.csr_matrix,
-        cell_barcodes: list[str],
-        called_barcodes: set[str]
-) -> tuple[scipy.sparse.csr_matrix, list[str]]:
+        cell_barcodes: np.ndarray,
+        called_barcodes: list[str]
+) -> tuple[scipy.sparse.csr_matrix, np.ndarray]:
     """
     subsets count matrix to contain only cell barcodes retained during cellranger filter step
 
@@ -18,21 +20,15 @@ def subset_called_cells(
     """
     logging.info('subsetting counts')
 
-    called: list[bool] = []
-    retained_barcodes: list[str] = []
-    for cell_barcode in cell_barcodes:
-        barcode_called = cell_barcode in called_barcodes
-        called.append(barcode_called)
-        if barcode_called:
-            retained_barcodes.append(cell_barcode)
+    called = np.isin(cell_barcodes, called_barcodes, assume_unique=True)
 
-    return counts[called, :], retained_barcodes
+    return counts[called, :], cell_barcodes[called]
 
 
 def count_dict_to_csr_matrix(
         count_dict: dict[str, dict[str, set[str]]],
         htos: list[tuple[str]]
-) -> tuple[scipy.sparse.csr_matrix, list[str], list[str]]:
+) -> tuple[scipy.sparse.csr_matrix, np.ndarray, np.ndarray]:
     """
     convert count_dict to csr_matrix
 
@@ -52,7 +48,7 @@ def count_dict_to_csr_matrix(
     count_matrix = scipy.sparse.csr_matrix(hto_counts_per_cell_barcode)
     count_matrix.eliminate_zeros()
 
-    return count_matrix, cell_barcodes, [hto_name for _, hto_name in htos]
+    return count_matrix, np.array(cell_barcodes), np.array([hto_name for _, hto_name in htos])
 
 
 def check_input_lengths(*args):

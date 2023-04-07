@@ -58,7 +58,7 @@ def read_hto_file(path_to_hto_file: str) -> list[tuple[str]]:
 def read_called_barcodes(
         path_to_barcode_file: str,
         compressed: bool = True
-) -> set[str]:
+) -> list[str]:
     """
     read called barcodes from filtered barcodes.tsv files as returned by cellranger
 
@@ -72,9 +72,9 @@ def read_called_barcodes(
     _open = gzip.open if compressed else open
     mode = 'rt' if compressed else 'r'
     with _open(path_to_barcode_file, mode) as barcode_file:
-        called_barcodes = set(
+        called_barcodes = [
             barcode.rstrip() for barcode in barcode_file
-        )
+        ]
 
     return called_barcodes
 

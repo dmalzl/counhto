@@ -38,8 +38,8 @@ class FitStatus(Enum):
 
 def get_tag_assignments(
         tag_counts_matrix: scipy.sparse.csr_matrix,
-        feature_names: list[str],
-        barcodes: list[str],
+        feature_names: np.ndarray,
+        barcodes: np.ndarray,
         features_per_cell_table: pd.DataFrame,
         n_gems: int = N_G,
         confidence: float = 0.9
@@ -72,7 +72,7 @@ def get_tag_assignments(
         columns=['num_features', 'num_umis']
     )
     init_data = data.subset_to_barcodes(
-        prelim_assignments['cell_barcode'].astype("S")
+        prelim_assignments['cell_barcode']
     )
     starting_model = initial_params_from_tag_calls_df(
         prelim_assignments, init_data, n_gems=n_gems
@@ -137,8 +137,8 @@ def get_tag_assignments(
 
 def get_jibes_tag_assignment(
         tag_counts_matrix: scipy.sparse.csr_matrix,
-        feature_names: list[str],
-        barcodes: list[str],
+        feature_names: np.ndarray,
+        barcodes: np.ndarray,
         marginal_features_per_cell_table: pd.DataFrame,
         n_gems: int = N_G,
         confidence: float = JIBES_MIN_CONFIDENCE
