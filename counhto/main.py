@@ -4,7 +4,7 @@ import logging
 import argparse as ap
 import multiprocessing as mp
 
-from .core import make_hto_count_matrix
+from .count import make_hto_count_matrix
 from .utils import check_input_lengths
 from .io import parse_input_csv, write_outputs
 from .marginal import get_marginal_tag_assignment

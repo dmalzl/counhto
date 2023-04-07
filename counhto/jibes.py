@@ -14,7 +14,7 @@ from .marginal import (
     get_features_per_cell_table
 )
 from .jibes_data import JibesData
-from .jibes_py import (
+from .jibes_core import (
     N_G,
     MULTIPLETS_FACTOR_NAME,
     BLANK_FACTOR_NAME,
@@ -22,8 +22,8 @@ from .jibes_py import (
     ASSIGNMENT_COL_NAME,
     JIBES_MIN_CONFIDENCE
 )
-from .jibes_py import JibesEMPy as JibesEM
-from .jibes_py import (
+from .jibes_core import JibesEMPy as JibesEM
+from .jibes_core import (
     initial_params_from_tag_calls_df,
     get_assignment_df,
     get_cols_associated_with_assignments
