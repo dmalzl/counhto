@@ -438,9 +438,16 @@ class JibesEMPy:  # pylint: disable=too-many-instance-attributes
         """Based on our poisson expectation, calculate the probability
         of each type of singlet and each type of multiplets."""
         # cnts here starts at 1 cell, the 0 group is not included
-        cnts = get_multiplet_counts_unrounded(self.estimated_cells, n_gems=self.n_gems)[
+        # cnts = get_multiplet_counts_unrounded(self.estimated_cells, n_gems=self.n_gems)[
+        #     : self.max_modeled_k_let
+        # ]
+        # above statement did not work with np.math.factorial in multinomial_comb
+        # due to non integer values, could also be fixed with math.gamma
+        # https://stackoverflow.com/questions/10056797/python-calculate-factorial-of-a-non-integral-number
+        # but resort to rounded values again
+        cnts = get_multiplet_counts(self.estimated_cells, n_gems=self.n_gems)[
             : self.max_modeled_k_let
-        ]
+        ].astype(np.int64)
         p_k_let = cnts / np.sum(cnts)
         if self.k_let_limited:
             # We mush all the probability for the higher states into the last state that we want to account for all that data
