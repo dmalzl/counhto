@@ -2,10 +2,13 @@ import sys
 import logging
 
 import argparse as ap
+import multiprocessing as mp
 
-from .core import run_hto_counting
+from .core import make_hto_count_matrix
 from .utils import check_input_lengths
-from .io import parse_input_csv
+from .io import parse_input_csv, write_outputs
+from .marginal import get_marginal_tag_assignment
+from .jibes import get_jibes_tag_assignment
 
 FORMAT = '%(asctime)s %(message)s'
 
@@ -43,6 +46,40 @@ def argument_parser():
     return parser
 
 
+def process_sample(path_dict: dict[str, str]):
+    path_to_bam_file = path_dict['bam_file']
+    path_to_hto_file = path_dict['hto_file']
+    path_to_called_barcodes_file = path_dict['barcode_file']
+    output_path_prefix = path_dict['output_directory']
+
+    tag_counts_matrix, barcodes, feature_names = make_hto_count_matrix(
+        path_to_bam_file,
+        path_to_hto_file,
+        path_to_called_barcodes_file
+    )
+
+    marginal_features_per_cell_table = get_marginal_tag_assignment(
+        tag_counts_matrix,
+        feature_names,
+        barcodes
+    )
+
+    jibes_features_per_cell_table = get_jibes_tag_assignment(
+        tag_counts_matrix,
+        feature_names,
+        barcodes,
+        marginal_features_per_cell_table
+    )
+
+    write_outputs(
+        tag_counts_matrix,
+        barcodes,
+        jibes_features_per_cell_table,
+        feature_names,
+        output_path_prefix
+    )
+
+
 def main():
     args = None
     if len(sys.argv) == 1:
@@ -60,10 +97,19 @@ def main():
         barcode_files,
         output_directories
     )
-    run_hto_counting(
-        bam_files,
-        hto_files,
-        barcode_files,
-        output_directories,
-        args.processes
-    )
+    iterable = [
+        {'bam_file': bam_file, 'hto_file': hto_file, 'barcode_file': barcode_file, 'output_directory': output_directory}
+        for bam_file, hto_file, barcode_file, output_directory in
+        zip(bam_files, hto_files, barcode_files, output_directories)
+    ]
+    if args.processes > 1:
+        p = mp.Pool(args.processes)
+        _map = p.map
+
+    else:
+        _map = lambda func, iterable: list(map(func, iterable)) # necessary to invoke map
+
+    _map(process_sample, iterable)
+
+    if args.processes > 1:
+        p.close()

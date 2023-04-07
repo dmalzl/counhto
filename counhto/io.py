@@ -3,6 +3,8 @@ import os
 import logging
 import scipy
 
+import pandas as pd
+
 
 def parse_input_csv(path_to_csv_file: str) -> tuple[list[str], list[str], list[str], list[str]]:
     """
@@ -77,9 +79,10 @@ def read_called_barcodes(
     return called_barcodes
 
 
-def write_counts(
+def write_outputs(
         counts: scipy.sparse.csr_matrix,
         barcodes: list[str],
+        assignments: pd.DataFrame,
         features: list[str],
         output_path_prefix: str
 ) -> None:
@@ -88,6 +91,7 @@ def write_counts(
 
     :param counts:              sparse count matrix
     :param barcodes:            list of cell barcodes corresponding to count matrix rows
+    :param assignments:         dataframe containing the jibes tag assignments per cell
     :param features:            list of HTO names corresponding to count matrix columns
     :param output_path_prefix:  path to output directory
 
@@ -103,6 +107,10 @@ def write_counts(
         counts
     )
 
+    assignments.to_csv(
+        os.path.join(output_path_prefix, 'hto_assignments.tsv'),
+        sep='\t'
+    )
     for filename, data in zip(
             ['barcodes.tsv', 'features.tsv'],
             [barcodes, features]

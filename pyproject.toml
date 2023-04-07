@@ -6,8 +6,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "counhto"
-version = "1.0.0"
-description = "Python package for generating hash tag oligo count matrices for demultiplexing cellranger output"
+version = "1.1.0"
+description = "Python package for generating and demultiplexing hash tag oligo count matrices from cellranger output"
 readme = "README.md"
 authors = [{ name = "Daniel Malzl", email = "daniel@menchelab.com" }]
 license = { file = "LICENSE" }
@@ -16,7 +16,15 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
 ]
-keywords = ['bioinformatics', 'single cell sequencing', 'sequencing', 'NGS']
+keywords = [
+    'bioinformatics',
+    'single cell sequencing',
+    'sequencing',
+    'NGS',
+    'hashtag oligo counting',
+    'hashtag oligo demultiplexing',
+    'cellranger'
+]
 dependencies = [
     'pysam >= 0.20.0',
     'scipy >= 1.10'
