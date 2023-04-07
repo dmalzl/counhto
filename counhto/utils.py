@@ -271,8 +271,10 @@ def fill_unassigned_cells_entries(
         },
         inplace=True
     )
-    nan_counts = all_cells_feature_table.num_umis.isna()
-    total_tag_count = np.array(tag_counts_matrix.sum(1)).flatten()
-    all_cells_feature_table.loc[nan_counts, 'num_umis'] = total_tag_count[nan_counts]
+    nan_idx = all_cells_feature_table.num_umis.isna()
+    nan_tag_counts = tag_counts_matrix[nan_idx, :].toarray().astype(str)
+    all_cells_feature_table.loc[nan_idx, 'num_umis'] = [
+        '|'.join(r) for r in nan_tag_counts
+    ]
 
     return all_cells_feature_table
