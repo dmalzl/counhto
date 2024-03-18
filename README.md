@@ -7,7 +7,7 @@ An easy to use tool to count hashtag oligos (HTOs) from 10x cellranger count out
 ## Install
 The most convenient and easy way to install the package is
 ```
-pip install countho
+pip install counhto
 ```
 
 alternatively you could also clone the repository and install it manually like
