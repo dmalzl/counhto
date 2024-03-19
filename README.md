@@ -1,6 +1,7 @@
 # counhto
 
 ![img](https://img.shields.io/badge/pypi-1.1.0-blue)
+![img](https://img.shields.io/badge/Python->=3.10-blue)
 
 An easy to use tool to count hashtag oligos (HTOs) from 10x cellranger count output processed with Antibody Captures for sample multiplexing and assign tags to cells using the cellranger Jibes algorithm (this part is a minimal edit of the original algorithm as implemented in cellranger > 6.0)
 
