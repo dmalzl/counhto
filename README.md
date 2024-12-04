@@ -32,7 +32,7 @@ countho --csv sample_csv.csv [-p n]
 
 The `-p` argument specifies the number of cpus to use for processing however this only has an effect if more than one samples are supplied.
 
-counhto then counts UMIs per HTO and automatically performes tag assignment using cellrangers Jibes algoritm (see [cell multiplexing documentation](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/algorithms/cellplex) for more info). The output for each sample will then be written to the specified output directories where the barcodes.tsv file contains the tag assignment information. The directory has following structure
+counhto then counts UMIs per HTO and automatically performes tag assignment using cellrangers Jibes algoritm (see [cell multiplexing documentation](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/algorithms/cellplex) for more info). The output for each sample will then be written to the specified output directories where the barcodes.tsv file contains the tag assignment information. The directory has the following structure
 ```
 /path/to/outputdir/
 |__
